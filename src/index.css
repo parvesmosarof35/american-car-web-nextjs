@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+
+
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('./assets/fonts/UKNumberPlate.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-mycustom: MyCustomFont, sans-serif;
+  --font-manrope: Manrope, sans-serif;
+  --color-custom-yellow: #FFCD0F;
+}
+
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee 60s linear infinite;
+  will-change: transform;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+  width: 320px;
+  margin-right: 24px;
+}
+
+@media (max-width: 768px) {
+  .marquee-item {
+    width: 280px;
+    margin-right: 16px;
+  }
+  
+  .marquee-content {
+    animation-duration: 40s;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Smooth fade edges */
+.marquee-container::before,
+.marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, white, transparent);
+}
+
+.marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, white, transparent);
+}
+
+@media (max-width: 768px) {
+  .marquee-container::before,
+  .marquee-container::after {
+    width: 20px;
+  }
+}
+
+
+
+
+
+
+input[type="range"] {
+  @apply w-full h-3 bg-yellow-400 rounded-lg appearance-none cursor-pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  @apply appearance-none size-6 bg-green-600 rounded-full shadow-md transition;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  @apply bg-green-700 scale-110;
+}
+
+input[type="range"]::-moz-range-thumb {
+  @apply w-5 h-5 bg-green-500 rounded-full shadow-md cursor-pointer transition;
+}
+input[type="range"]::-moz-range-thumb:hover {
+  @apply bg-green-600 scale-110;
+}
