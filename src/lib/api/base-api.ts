@@ -39,7 +39,8 @@ export const baseApi = createApi({
     "soldPlates",
     "singlePlate",
     "privacy",
-    "termsAndConditions"
+    "termsAndConditions",
+    "profile"
 
   ],
 });

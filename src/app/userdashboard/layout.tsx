@@ -1,11 +1,15 @@
-import type React from "react"
-import PrivateRoute from "@/components/protected/private-route"
-import UserDashboardLayout from "@/components/layout/user-dashboard-layout"
+import UserDashboardLayout from "./UserDashboardLayout";
+// import PrivateRoute from "@/components/protected/private-route"
+import type React from "react";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <PrivateRoute>
-      <UserDashboardLayout>{children}</UserDashboardLayout>
-    </PrivateRoute>
-  )
+    // <PrivateRoute>
+    <UserDashboardLayout>{children}</UserDashboardLayout>
+    // </PrivateRoute>
+  );
 }
