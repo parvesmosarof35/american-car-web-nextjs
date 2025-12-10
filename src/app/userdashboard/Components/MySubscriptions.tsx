@@ -1,22 +1,27 @@
+"use client"
+import { useMySubscriptionListQuery } from "@/lib/api/Issubscribed/mySubscriptionsApis";
 import React from "react";
-import { useMySubscriptionListQuery } from "../../../Redux/api/Issubscribed/mySubscriptionsApis";
+
 import { FaCheck } from "react-icons/fa";
 
 export default function MySubscriptions() {
-  const { data, isLoading, error } = useMySubscriptionListQuery();
+  const { data, isLoading, error } = useMySubscriptionListQuery({});
 
   if (isLoading) return <div className="text-center py-20">Loading...</div>;
-  if (error) return <div className="text-center py-20 text-red-500">{error.message}</div>;
+  if (error) return <div className="text-center py-20 text-red-500">{error.toString()}</div>;
 
   const subscriptions = data?.data?.all_subscribed_memeber || [];
+
+  const isEmptySubs = subscriptions.length === 0;
 
   return (
     <div className="bg-gray-50 min-h-screen py-10">
       <div className="container mx-auto px-5">
         <h1 className="text-4xl font-bold text-center mb-10">My Subscriptions</h1>
+        {isEmptySubs && <p className="text-center text-gray-500">No subscriptions found</p>}
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {subscriptions.map((sub) => {
+          {subscriptions.map((sub: any) => {
             const { subscriptionId, isAvailable } = sub;
             return (
               <div
@@ -39,7 +44,7 @@ export default function MySubscriptions() {
                 <p className="text-gray-600 mb-4">{subscriptionId.description}</p>
 
                 <ul className="mb-4">
-                  {subscriptionId.featuresList.map((feature) => (
+                  {subscriptionId.featuresList.map((feature: any) => (
                     <li key={feature._id} className="flex items-center gap-2 text-gray-700 mb-2">
                       <FaCheck className="text-green-500" /> {feature.value}
                     </li>

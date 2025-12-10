@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useAddAdvertMutation } from "@/lib/api/PlatesApis/myAdvartApi";
 import React, { useState } from "react";
 import { HiOutlineUpload } from "react-icons/hi";
@@ -118,21 +118,39 @@ export default function ListPlateForSale() {
     try {
       const result = await addAdvert(payload).unwrap();
       console.log("Advert added successfully:", result);
-      if (result.success) {
+
+      // Check if result has success property or data structure
+      if (result?.success || result?.data?.success || result?.data) {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: `${result?.data?.message}`,
+          text:
+            result?.data?.message ||
+            result?.message ||
+            "Advert created successfully!",
         });
+        // Optionally redirect to my adverts page
+        // router.push("/userdashboard/my-adverts");
       } else {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: result.message || "There was an issue creating your advert.",
+          text:
+            result?.message ||
+            result?.data?.message ||
+            "There was an issue creating your advert.",
         });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error adding advert:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text:
+          err?.data?.message ||
+          err?.message ||
+          "Failed to create advert. Please try again.",
+      });
     }
   };
 

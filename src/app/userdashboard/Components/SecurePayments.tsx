@@ -1,14 +1,15 @@
+"use client"
 // components/SecurePayments.jsx
+import { useCreatePaymentSecureMutation } from "@/lib/api/PaymentApis/securePaymentApi";
 import React, { useEffect,  useState } from "react";
-import { useCreatePaymentSecureMutation } from "../../../Redux/api/PaymentApis/securePaymentApi";
 
 export default function SecurePayments() {
   const [createPaymentSecure, { data, isLoading, error }] =
     useCreatePaymentSecureMutation();
 
 
-  const [redirectUrl, setRedirectUrl] = useState(null);
-  const [countdown, setCountdown] = useState(5);
+  const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState<number>(5);
 
   const handleCreatePayment = async () => {
     try {

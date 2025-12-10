@@ -1,26 +1,33 @@
+"use client";
+
 import React, { useState } from "react";
 import { MessageCircle, Heart, Trash2 } from "lucide-react";
-import { useGetMySavedPlatesQuery, useRemoveFromSavedPlatesMutation } from "../../../Redux/api/PlatesApis/mySavedAdversApi";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
+import {
+  useGetMySavedPlatesQuery,
+  useRemoveFromSavedPlatesMutation,
+} from "@/lib/api/PlatesApis/mySavedAdversApi";
 
 export default function SavedAdverts() {
-  const { data, isLoading, error } = useGetMySavedPlatesQuery();
-  const [removeFromSavedPlates, { isLoading: removing }] = useRemoveFromSavedPlatesMutation();
-  const [removingId, setRemovingId] = useState(null);
-  const navigate = useNavigate();
+  const { data, isLoading, error } = useGetMySavedPlatesQuery({});
+  const [removeFromSavedPlates, { isLoading: removing }] =
+    useRemoveFromSavedPlatesMutation();
+  const [removingId, setRemovingId] = useState<string | null>(null);
+  const router = useRouter();
 
   if (isLoading) return <p className="text-center">Loading...</p>;
-  if (error) return <p className="text-center text-red-500">Error loading adverts</p>;
+  if (error)
+    return <p className="text-center text-red-500">Error loading adverts</p>;
 
   // Extract adverts list from API response
   const savedAdverts = data?.data?.all_save_plates || [];
 
-  const handleContact = (advertId) => {
+  const handleContact = (advertId: string) => {
     console.log("Chat clicked, ID:", advertId);
-    navigate(`/plate-details/${advertId}`);
+    router.push(`/plate-details/${advertId}`);
   };
 
-  const toggleFavorite = async (advertId) => {
+  const toggleFavorite = async (advertId: string) => {
     console.log("Favorite clicked, ID:", advertId);
     try {
       setRemovingId(advertId);
@@ -47,16 +54,20 @@ export default function SavedAdverts() {
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           {/* Table Header (Hidden on Mobile) */}
           <div className="hidden sm:grid grid-cols-5 gap-4 p-4 bg-gray-50 border-b border-gray-200">
-            <div className="text-sm font-medium text-gray-700">Number Plate</div>
+            <div className="text-sm font-medium text-gray-700">
+              Number Plate
+            </div>
             <div className="text-sm font-medium text-gray-700">Price</div>
             <div className="text-sm font-medium text-gray-700">Status</div>
-            <div className="text-sm font-medium text-gray-700">Contact Seller</div>
+            <div className="text-sm font-medium text-gray-700">
+              Contact Seller
+            </div>
             <div className="text-sm font-medium text-gray-700"></div>
           </div>
 
           {/* Table Rows */}
           <div className="divide-y divide-gray-200">
-            {savedAdverts.map((advert) => (
+            {savedAdverts.map((advert : any) => (
               <div
                 key={advert._id}
                 className="flex flex-col sm:grid sm:grid-cols-5 gap-4 p-4 items-center hover:bg-gray-50 transition-colors"
@@ -106,7 +117,9 @@ export default function SavedAdverts() {
                     {removing && removingId === advert._id ? (
                       <>
                         <span className="block w-4 h-4 border-2 border-gray-300 border-t-red-500 rounded-full animate-spin" />
-                        <span className="text-sm text-gray-700">Removing...</span>
+                        <span className="text-sm text-gray-700">
+                          Removing...
+                        </span>
                       </>
                     ) : (
                       <>

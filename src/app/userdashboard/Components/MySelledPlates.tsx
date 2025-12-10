@@ -1,16 +1,14 @@
+import { useGetAllMySelledPlatesQuery } from "@/lib/api/PaymentApis/myBuyedSelledApi";
+import { getImageUrl } from "@/lib/config";
 import React from "react";
-import { useGetAllMySelledPlatesQuery } from "../../../Redux/api/PaymentApis/myBuyedSelledApi";
-import { getImageUrl } from "../../../config/envConfig";
+
 
 export default function MySelledPlates() {
-  const { data, isLoading, isError } = useGetAllMySelledPlatesQuery();
+  const { data, isLoading, isError } = useGetAllMySelledPlatesQuery({});
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-40">
-        {/* flex দিয়ে wrapper বানানো হলো */}
-        {/* justify-center → horizontal center */}
-        {/* items-center → vertical center */}
         <div className="w-6 h-6 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     );
@@ -31,7 +29,7 @@ export default function MySelledPlates() {
       <h2 className="text-2xl font-bold mb-6">My sold plates</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-        {payments.map((item) => (
+        {payments.map((item: any) => (
           <div
             key={item._id}
             className="bg-white shadow-md rounded-xl p-4 flex flex-col items-center text-center"
